@@ -1,0 +1,211 @@
+# INSTALAÇÃO UBUNTU
+
+1. Remover a versão snap do firefox e instalar o chrome
+
+$ sudo snap remove firefox
+
+$ baixar o chrome para linux ubuntu e rodar o comando no diretorio
+$ sudo dpkg -i google-chrome-stable_current_amd64.deb
+
+2. Instalar os drivers da Nvidia
+
+Abrir Software & Updates
+Ir na aba Additional Drivers
+Ver a versão (proprietary, tested) mas que não tenha a opção -open ou -server no final
+ex: Using NVIDIA driver metapackage from nvidia-driver-535-server
+    Using NVIDIA driver metapackage from nvidia-driver-535-open
+    Using NVIDIA driver metapackage from nvidia-driver-535
+
+Devemos escolher a última opção  
+
+Depois já arrumar a questao do display (tornar o monitor o principal, alterar refresh rate, etc)
+          
+3. Atualizar todos os pacotes
+
+$ sudo apt update && sudo apt upgrade
+
+4. Instalar o tweaks
+
+$ sudo apt install gnome-tweaks
+
+com isso da pra alterar a opção do pc suspender quando baixa a tampa do laptop por exemplo, entre outras coisas
+
+E também desabilitar a mouse aceleration colocando "flat" acomo aceleration profile
+
+5. Instalar o xz utils (pra unzipar arquivos tar.xz)
+
+$ sudo apt-get install xz-utils
+
+3. Bluetooth fix
+
+$ sudo apt-get install pavucontrol
+
+6. Minimizar clicando no ícone
+$ gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize'
+
+7. Habilitar o firewall
+
+$ sudo systemctl enable
+
+8. Instalar o flatpak (é melhor que o snap)
+$ sudo apt install flatpak
+$ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+$ sudo apt install gnome-software-plugin-flatpak
+
+para instalar os pacotes do flatpak:
+ir até https://flathub.org/, pesquisa o pacote e instalar via comando (está no final sempre)
+
+Ex de alguns bons de instalar por aqui:
+spotify: $ flatpak install flathub com.spotify.Client
+dropbox: $ flatpak install flathub com.dropbox.Client
+gitkraken: $ flatpak install flathub com.axosoft.GitKraken
+
+Outros pacotes é melhor instalar os pacotes via apt, só é melhor instalar no flatpak se nao funcionar com apt
+
+9. Instalar alguns utilitários do Linux, como htop, neofetch e nvtop
+
+$ sudo apt update
+$ sudo apt -y install nvtop htop neofetch
+
+10. Instalar o tlp (melhora o uso de bateria)
+
+$ sudo apt install tlp tlp-rdw
+$ sudo systemctl enable tlp
+$ sudo systemctl start tlp
+
+11. Instalar o bleachbit (é tipo um CCleaner)
+
+$ sudo apt install bleachbit
+
+13. arrumar o bug de time que dps acontece no windows
+
+$ timedatectl set-local-rtc 1
+
+14. Instalar o VSCode
+Baixar do site o .deb
+dps copiar pra home/bruno com
+
+$ cp code_1.80.0-1688479026_amd64.deb /home/bruno/
+
+ir ate o diretorio
+
+$ cd /home/bruno
+
+E dps só instalar com
+
+$ sudo apt install ./code_1.80.0-1688479026_amd64.deb
+
+15. Instalar o git
+
+$ sudo apt-get install git
+
+VER A QUESTAO DA CONTA DO VSCODE
+E INSTALAR O CRUB
+
+16. Instalar o cuda, cudnn, tensorflow
+
+cuda
+$ sudo apt-get -y install nvidia-cuda-toolkit
+
+checar instalacao: $ nvcc --version
+
+cudnn
+$ sudo apt-get -y install nvidia-cudnn
+
+tensorflow
+$ sudo apt-get update && upgrade -y
+$ pip install --upgrade pip
+$ pip install --upgrade tensorflow
+
+checar instalacao
+
+python3 -c 'import tensorflow as tf;print(tf.version.VERSION)'
+python3
+import tensorflow as tf;
+tf.test.is_gpu_available('GPU');
+
+
+Depois precisa adicionar uma variavel de ambiente
+
+https://stackoverflow.com/questions/68614547/tensorflow-libdevice-not-found-why-is-it-not-found-in-the-searched-path
+
+primeiro checar se está lá
+$ find / -type d -name nvvm 2>/dev/null
+/usr/lib/cuda/nvvm
+$ cd /usr/lib/cuda/nvvm
+/usr/lib/cuda/nvvm$ ls
+libdevice
+/usr/lib/cuda/nvvm$ cd libdevice
+/usr/lib/cuda/nvvm/libdevice$ ls
+libdevice.10.bc
+
+depois ir até o arquivo .bashrc em /home/bruno
+
+copiar essa linha no final
+
+export XLA_FLAGS=--xla_gpu_cuda_data_dir=/usr/lib/cuda
+
+Ctrl + O pra salvar, Ctrl + X pra sair
+
+Reiniciar o pc e está feit
+
+
+
+17. Instalar java, spark, pyspark
+
+checar se o java ja esta instalado com 
+$ java -version
+
+se nao executar 
+$ sudo apt-get install default-jdk
+
+instalando o spark, ir até o site https://spark.apache.org/downloads.html, baixar o arquivo .tgz
+ir ate os Downloads 
+
+$ cd /home/bruno/Downloads
+
+extrair o arquivo:
+
+$ tar -xvf spark-*.tgz
+
+mover o arquivo pra pasta opt (podia ser outra, mas é comum usar essa pasta mesmo)
+
+$ sudo mv spark-3.4.1-bin-hadoop3/ /opt/spark
+
+remover o arquvo tgz 
+
+$ rm -rf spark-3.4.1-bin-hadoop3.tgz
+
+ir ate o home e abrir o .bashrc
+$ cd /home/bruno
+$ nano .bashrc
+
+colar as linhas no final do arquivo
+
+export SPARK_HOME=/opt/spark
+export PATH=$SPARK_HOME/bin:$PATH
+
+Ctrl + X e Enter pra salvar, e dps Ctrl + O
+
+depois é so instalar o pyspark
+
+$ pip install pyspark
+
+18. Configurar o GRUB
+ir ate a pagina de temas e ver como instala cada um https://www.gnome-look.org/browse?cat=109&ord=rating
+
+19. Adicionar memoria SWAP
+
+https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-22-04
+
+20. Install docker
+
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
+
+e install docker-compose
+
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-22-04
+
+
+
+
